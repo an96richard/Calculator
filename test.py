@@ -6,6 +6,7 @@
 #2. Build Functions to tackle complex expressions e.g parenthesis, PEMDAS, etc.
 #3. Create Functional GUI for users
 #======================
+from decimal import Decimal
 numberArr1 = []
 numberArr2 = []
 symbolArr = []
@@ -26,7 +27,39 @@ def divide_function(x,y):
 
 
 #Function to evaluate an expression, where arr1 and arr2 are arrays that contain the numbers in the expression.
-#def expresssionEval(arr1,arr2):
+#Using Recursion we can evaluate each expression appropriately.
+#CURRENTLY DOES LEFT TO RIGHT ARITHMETIC
+def expresssionEval(arr1,arr2):
+    i = len(arr1)
+    j = len(symbolArr)
+    sum = arr2[i-1];
+    while True:
+        if(i == 1):
+            if symbolArr[j-1] == "+":
+                return Decimal(arr1[0]) + Decimal(arr2[0])
+            elif symbolArr[j-1] == "-":
+                return Decimal(arr1[0]) - Decimal(arr2[0])
+            elif symbolArr[j-1] == "*":
+                return Decimal(arr1[0]) * Decimal(arr2[0])
+            elif symbolArr[j-1] == "/":
+                return Decimal(arr1[0]) / Decimal(arr2[0])
+        else:
+            arr1.pop(i-1)
+            arr2.pop(i-1)
+
+            if symbolArr[j-1] == "+":
+                symbolArr.pop(j-1)
+                return Decimal(sum) + Decimal(expresssionEval(arr1, arr2))
+            elif symbolArr[j-1] == "-":
+                symbolArr.pop(j-1)
+                return Decimal(sum) - Decimal(expresssionEval(arr1, arr2))
+            elif symbolArr[j-1] == "*":
+                symbolArr.pop(j-1)
+                return Decimal(sum) * Decimal(expresssionEval(arr1, arr2))
+            elif symbolArr[j-1] == "/":
+                symbolArr.pop(j-1)
+                return Decimal(sum) / Decimal(expresssionEval(arr1, arr2))
+
 
 #Main Method will first parse the string and separate each number and operator into separate arrays. This will allow for simple manipulation of the expression and help do order of operations later.
 # Then it will call the expressionEval function to evaluate the expression.
@@ -70,7 +103,7 @@ def main():
             else:
                 return print("Sorry That Is Not A Valid Expression (A Value In Your Expression Is Not A Digit nor an Operator)")
     print(numberArr1, numberArr2, symbolArr)
-
+    print(expresssionEval(numberArr1, numberArr2))
 
 
 
