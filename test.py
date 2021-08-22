@@ -2,9 +2,10 @@
 #Calculator in Python
 #=======================
 #GOALS
-#1. Create a program that can perform basic arithmetic
-#2. Build Functions to tackle complex expressions e.g parenthesis, PEMDAS, etc.
-#3. Create Functional GUI for users
+#1. Create a program that can perform basic arithmetic DONE
+#2. Create Functional GUI for users
+#3. Build Functions to tackle complex expressions e.g parenthesis, PEMDAS, etc.
+#
 #======================
 from decimal import Decimal
 numberArr1 = []
@@ -52,13 +53,15 @@ def expresssionEval(arr1,arr2):
                 return Decimal(sum) + Decimal(expresssionEval(arr1, arr2))
             elif symbolArr[j-1] == "-":
                 symbolArr.pop(j-1)
-                return Decimal(sum) - Decimal(expresssionEval(arr1, arr2))
+                return Decimal(expresssionEval(arr1, arr2)) - Decimal(sum)
             elif symbolArr[j-1] == "*":
                 symbolArr.pop(j-1)
                 return Decimal(sum) * Decimal(expresssionEval(arr1, arr2))
             elif symbolArr[j-1] == "/":
                 symbolArr.pop(j-1)
-                return Decimal(sum) / Decimal(expresssionEval(arr1, arr2))
+                if(sum == "0"):
+                    return print("Sorry You Cannot Divide by 0")
+                return Decimal(expresssionEval(arr1, arr2)) / Decimal(sum)
 
 
 #Main Method will first parse the string and separate each number and operator into separate arrays. This will allow for simple manipulation of the expression and help do order of operations later.
@@ -102,7 +105,9 @@ def main():
                 i+=1
             else:
                 return print("Sorry That Is Not A Valid Expression (A Value In Your Expression Is Not A Digit nor an Operator)")
-    print(numberArr1, numberArr2, symbolArr)
+    print(numberArr1)
+    print(symbolArr)
+    print(numberArr2)
     print(expresssionEval(numberArr1, numberArr2))
 
 
